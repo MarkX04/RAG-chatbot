@@ -16,60 +16,82 @@ var getUrlParameter = function getUrlParameter(sPageURL) {
     }
 };
 
-// Execute actions on images generated from Markdown pages
-var images = $("div#body-inner img").not(".inline");
-// Wrap image inside a featherlight (to get a full size view in a popup)
-images.wrap(function(){
-  var image =$(this);
-  var o = getUrlParameter(image[0].src);
-  var f = o['featherlight'];
-  // IF featherlight is false, do not use feather light
-  if (f != 'false') {
-    if (!image.parent("a").length) {
-      return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
+// Wait for DOM and all scripts to be ready
+$(document).ready(function() {
+    // Ensure featherlight is available before proceeding
+    if (typeof $.featherlight === 'undefined') {
+        console.warn('Featherlight not available, skipping image wrapping');
+        return;
     }
-  }
-});
 
-// Change styles, depending on parameters set to the image
-images.each(function(index){
-  var image = $(this)
-  var o = getUrlParameter(image[0].src);
-  if (typeof o !== "undefined") {
-    var h = o["height"];
-    var w = o["width"];
-    var c = o["classes"];
-    image.css("width", function() {
-      if (typeof w !== "undefined") {
-        return w;
-      } else {
-        return "auto";
+    // Execute actions on images generated from Markdown pages
+    var images = $("div#body-inner img").not(".inline");
+    
+    // Wrap image inside a featherlight (to get a full size view in a popup)
+    images.wrap(function(){
+      var image = $(this);
+      
+      // Check if image source exists before processing
+      if (!image[0] || !image[0].src) {
+          return;
+      }
+      
+      var o = getUrlParameter(image[0].src);
+      var f = o ? o['featherlight'] : undefined;
+      
+      // IF featherlight is false, do not use feather light
+      if (f != 'false') {
+        if (!image.parent("a").length) {
+          return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
+        }
       }
     });
-    image.css("height", function() {
-      if (typeof h !== "undefined") {
-        return h;
-      } else {
-        return "auto";
+
+    // Change styles, depending on parameters set to the image
+    images.each(function(index){
+      var image = $(this);
+      
+      // Check if image source exists before processing
+      if (!image[0] || !image[0].src) {
+          return;
+      }
+      
+      var o = getUrlParameter(image[0].src);
+      if (typeof o !== "undefined") {
+        var h = o["height"];
+        var w = o["width"];
+        var c = o["classes"];
+        image.css("width", function() {
+          if (typeof w !== "undefined") {
+            return w;
+          } else {
+            return "auto";
+          }
+        });
+        image.css("height", function() {
+          if (typeof h !== "undefined") {
+            return h;
+          } else {
+            return "auto";
+          }
+        });
+        if (typeof c !== "undefined") {
+          var classes = c.split(',');
+          for (var i = 0; i < classes.length; i++) {
+            image.addClass(classes[i]);
+          }
+        }
       }
     });
-    if (typeof c !== "undefined") {
-      var classes = c.split(',');
-      for (i = 0; i < classes.length; i++) {
-        image.addClass(classes[i]);
-      }
-    }
-  }
 });
 
-// Stick the top to the top of the screen when  scrolling
+// Stick the top to the top of the screen when scrolling
 $(document).ready(function(){
   $("#top-bar").sticky({topSpacing:0, zIndex: 1000});
 });
 
-
 jQuery(document).ready(function() {
-  // Add link button for every
+  // Add link button for every heading
   var text, clip = new ClipboardJS('.anchor');
   $("h1~h2,h1~h3,h1~h4,h1~h5,h1~h6").append(function(index, html){
     var element = $(this);
@@ -89,6 +111,8 @@ jQuery(document).ready(function() {
       e.clearSelection();
       $(e.trigger).attr('aria-label', 'Link copied to clipboard!').addClass('tooltipped tooltipped-s');
   });
+  
+  // Handle mermaid diagrams
   $('code.language-mermaid').each(function(index, element) {
     var content = $(element).html().replace(/&amp;/g, '&');
     $(element).parent().replaceWith('<div class="mermaid" align="center">' + content + '</div>');
