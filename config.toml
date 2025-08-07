@@ -1,10 +1,11 @@
 # Change the default theme to be use when building the site with Hugo
 theme = "hugo-theme-learn"
-baseURL = "https://markx04.github.io/RAG-chatbot/"
 
 # For search functionality
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
+baseURL = "https://markx04.github.io/RAG-chatbot/"
+canonifyURLs = true
 
 [params]
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
