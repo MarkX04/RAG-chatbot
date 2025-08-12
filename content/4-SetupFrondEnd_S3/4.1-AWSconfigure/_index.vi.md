@@ -6,7 +6,7 @@ chapter : false
 pre : " <b> 4.1 </b> "
 ---
  
-1. Clone Project Github [chatbot-rag](https://github.com/MarkX04/chatbot-rag) về local
+1. Clone Project Github [RAG Chatbot with Evidence Highlighting Feature](https://github.com/MarkX04/RAG-Chatbot-with-Evidence-Highlighting-Feature) về local
 
 ![alt text](/images/4.s3/4.0.png)
 

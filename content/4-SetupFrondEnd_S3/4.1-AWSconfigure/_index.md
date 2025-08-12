@@ -8,7 +8,7 @@ pre : " <b> 4.1 </b> "
 
 ### Step-by-step AWS CLI Configuration
 
-1. Clone the GitHub project [chatbot-rag](https://github.com/MarkX04/chatbot-rag) to your local machine.
+1. Clone the GitHub project [RAG Chatbot with Evidence Highlighting Feature](https://github.com/MarkX04/RAG-Chatbot-with-Evidence-Highlighting-Feature) to your local machine.
 
 ![alt text](/images/4.s3/4.0.png)
 

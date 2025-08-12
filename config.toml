@@ -1,6 +1,6 @@
 # Change the default theme to be use when building the site with Hugo
 theme = "hugo-theme-learn"
-baseURL = "https://markx04.github.io/RAG-chatbot/"
+baseURL = "https://markx04.github.io/rag-chatbot-workshop/"
 canonifyURLs = true
 relativeURLs = false
 
